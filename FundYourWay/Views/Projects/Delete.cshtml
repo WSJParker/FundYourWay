@@ -1,0 +1,89 @@
+﻿@model FundYourWay.Models.Project
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpenForFundingDateAndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpenForFundingDateAndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CloseForFundingDateAndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CloseForFundingDateAndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.limitedFundingAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.limitedFundingAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentFundingAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentFundingAmount)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
