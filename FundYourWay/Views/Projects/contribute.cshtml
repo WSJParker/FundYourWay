@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "contribute";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>contribute</h2>
+@using (Html.BeginForm())
+
+{
+    @Html.AntiForgeryToken()
+    <h3>Enter the mount of money</h3>
+    <input type="hidden" name="projectId" value="@ViewBag.ProjectId" />
+    <input type="text" name="fundAmoumt" id="fundAmount">
+    <input type="submit" value="contribute" class="btn btn-default" />
+}
+

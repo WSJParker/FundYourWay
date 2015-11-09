@@ -17,24 +17,14 @@ namespace FundYourWay.Models
 
         public string ProjectDescription { get; set; }
 
-        public DateTime OpenForFundingDateAndTime { get; set; }
-
-        public DateTime CloseForFundingDateAndTime { get; set; }
-
-        public Boolean IsApproved { get; set; }
-
-        public Boolean IsDeleted { get; set; }
-
-        public int limitedFundingAmount { get; set; }
-
         public int CurrentFundingAmount { get; set; }
-        //[ForeignKey("ProjectOwner")]
-        //public int ProjectOwerId { get; set; }
-
+        [ForeignKey("ProjectOwner")]
+        public int ProjectOwerId { get; set; }
+        public virtual UserProfile ProjectOwner { get; set; }
         //[ForeignKey("ProjectCompany")]
         //public int? ProjectCompanyId { get; set; }
 
-        public ICollection<UserProfile> FundingUsers { get; set; }
+        public virtual ICollection<UserProfile> FundingUsers { get; set; }
 
     }
 }

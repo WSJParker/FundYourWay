@@ -17,7 +17,9 @@ namespace FundYourWay.DAL
 
         public DbSet<Project> Projects { get; set; }
 
-        public DbSet<Company> Companies { get; set; }
+        public DbSet<Transaction> Transtions { get; set; }
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

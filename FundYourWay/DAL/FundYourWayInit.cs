@@ -10,21 +10,22 @@ namespace FundYourWay.DAL
 {
     public class FundYourWayInit : DropCreateDatabaseIfModelChanges<FundYourWayContext>
     {
-        //public FundYourWayInit()
-        //{
-        //    //if(base.GetType().IsSubclassOf(new DropCreateDatabaseIfModelChanges<FundYourWayContext>().GetType()))
-        //    //{
-        //    //    WebSecurity.InitializeDatabaseConnection(
-        //    //        "FundYourWayContext", 
-        //    //        "UserProfiles", 
-        //    //        "UserId", 
-        //    //        "UserName", 
-        //    //        autoCreateTables: true
-        //    //        );
-        //    //}
+        public FundYourWayInit()
+        {
+            if (base.GetType().IsSubclassOf(new DropCreateDatabaseIfModelChanges<FundYourWayContext>().GetType()))
+            {
+                WebSecurity.InitializeDatabaseConnection(
+                    "FundYourWayContext",
+                    "UserProfiles",
+                    "UserId",
+                    "UserName",
+                    autoCreateTables: true
+                    );
+            }
 
-            
-        //}
+
+        }
+
         protected override void Seed(FundYourWayContext context)
         {
             var userprofiles = new List<UserProfile>
@@ -38,6 +39,16 @@ namespace FundYourWay.DAL
 
             userprofiles.ForEach(u => context.UserProfiles.Add(u));
             context.SaveChanges();
+            var transactions = new List<Transaction>
+            {
+                new Transaction
+                {
+
+                }
+
+            };
+            transactions.ForEach(t => context.Transtions.Add(t));
+            context.SaveChanges();
 
             var projects = new List<Project>
             {
@@ -46,12 +57,7 @@ namespace FundYourWay.DAL
             projects.ForEach(p => context.Projects.Add(p));
             context.SaveChanges();
 
-            var companies = new List<Company>
-            {
-
-            };
-            companies.ForEach(c => context.Companies.Add(c));
-            context.SaveChanges();
+            
         }
     }
 }

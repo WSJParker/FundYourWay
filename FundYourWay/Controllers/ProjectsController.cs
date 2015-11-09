@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using FundYourWay.DAL;
 using FundYourWay.Models;
+using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace FundYourWay.Controllers
 {
@@ -47,11 +49,15 @@ namespace FundYourWay.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProjectId,ProjectName,ProjectDescription,OpenForFundingDateAndTime,CloseForFundingDateAndTime,IsApproved,IsDeleted,limitedFundingAmount,CurrentFundingAmount")] Project project)
+        public ActionResult Create([Bind(Include = "ProjectId,ProjectName,ProjectDescription,CurrentFundingAmount")] Project project)
         {
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
+                UserProfile projectHolder = db.UserProfiles.Find(WebSecurity.CurrentUserId);
+                project.ProjectOwerId = WebSecurity.CurrentUserId;
+                project.ProjectOwner = projectHolder;
+                //project.FundingUsers.Add(projectHolder);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -79,11 +85,15 @@ namespace FundYourWay.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProjectId,ProjectName,ProjectDescription,OpenForFundingDateAndTime,CloseForFundingDateAndTime,IsApproved,IsDeleted,limitedFundingAmount,CurrentFundingAmount")] Project project)
+        public ActionResult Edit([Bind(Include = "ProjectId,ProjectName,ProjectDescription,CurrentFundingAmount")] Project project)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;
+                var projectHolder = db.UserProfiles.Find(WebSecurity.CurrentUserId);
+                project.ProjectOwerId = WebSecurity.CurrentUserId;
+                project.ProjectOwner = projectHolder;
+               // project.FundingUsers.Add(projectHolder);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -123,6 +133,36 @@ namespace FundYourWay.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult contribute (int? id)
+        {
+            ViewBag.ProjectId = id;
+            return View();
+        }
+        [HttpPost, ActionName("contribute")]
+        [ValidateAntiForgeryToken]
+        public ActionResult contribute(int? projectId,int fundAmount)
+        {
+            if (projectId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(projectId);
+            project.CurrentFundingAmount = project.CurrentFundingAmount + fundAmount;
+
+            db.Transtions.Add(new Transaction
+            {
+                amount = fundAmount,
+                FunderId = WebSecurity.CurrentUserId,
+                Funder = db.UserProfiles.Find(WebSecurity.CurrentUserId),
+                ProjectId = projectId,
+                Project = project
+
+            });
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+
         }
     }
 }
