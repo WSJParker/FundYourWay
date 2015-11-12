@@ -5,13 +5,15 @@
 }
 
 <h2>contribute</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("contribute","Projects",FormMethod.Post))
 
 {
     @Html.AntiForgeryToken()
     <h3>Enter the mount of money</h3>
-    <input type="hidden" name="projectId" value="@ViewBag.ProjectId" />
-    <input type="text" name="fundAmoumt" id="fundAmount">
+    
+    <input type="hidden" name="projectId" id="projectId" value="@ViewBag.ProjectId" />
+    <input name="fundAmoumt" id="fundAmount">
     <input type="submit" value="contribute" class="btn btn-default" />
+    
 }
 
